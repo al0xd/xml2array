@@ -26,7 +26,7 @@ xml2array
  * Version: 0.8 (02 May 2012)
  *          - Removed htmlspecialchars() before adding to text node or attributes.
  *
- * Usage:
+ ### Usage:
 ```php
 $xml = Array2XML::createXML('root_node_name', $php_array);
 echo $xml->saveXML();
@@ -64,4 +64,97 @@ $books = array(
 $xml = Array2XML::createXML('books', $books);
  
 // creates <books type="fiction" year="2011" bestsellers="true"/>
+```
+Node Value: For nodes without attributes, value can be assigned directly, else we need to have a @value key in the array. Following examples will make it clear
+```php
+$books = 1984;  // or
+$books = array(
+    '@value' = 1984
+);
+// creates <books>1984</books>
+ 
+$books = array(
+    '@attributes' => array(
+        'type' => 'fiction'
+    ),
+    '@value' = 1984
+);
+// creates <books type="fiction">1984</books>
+ 
+$books = array(
+    '@attributes' => array(
+        'type' => 'fiction'
+    ),
+    'book' => 1984
+);
+/* creates 
+<books type="fiction">
+  <book>1984</book>
+</books>
+*/
+ 
+$books = array(
+    '@attributes' => array(
+        'type' => 'fiction'
+    ),
+    'book'=> array('1984','Foundation','Stranger in a Strange Land')
+);
+/* creates 
+<books type="fiction">
+  <book>1984</book>
+  <book>Foundation</book>
+  <book>Stranger in a Strange Land</book>
+</books>
+*/
+```
+
+Complex XML: Following example clarifies most of the usage of the library
+```php
+$books = array(
+    '@attributes' => array(
+        'type' => 'fiction'
+    ),
+    'book' => array(
+        array(
+            '@attributes' => array(
+                'author' => 'George Orwell'
+            ),
+            'title' => '1984'
+        ),
+        array(
+            '@attributes' => array(
+                'author' => 'Isaac Asimov'
+            ),
+            'title' => array('@cdata'=>'Foundation'),
+            'price' => '$15.61'
+        ),
+        array(
+            '@attributes' => array(
+                'author' => 'Robert A Heinlein'
+            ),
+            'title' =>  array('@cdata'=>'Stranger in a Strange Land'),
+            'price' => array(
+                '@attributes' => array(
+                    'discount' => '10%'
+                ),
+                '@value' => '$18.00'
+            )
+        )
+    )
+);
+/* creates 
+<books type="fiction">
+  <book author="George Orwell">
+    <title>1984</title>
+  </book>
+  <book author="Isaac Asimov">
+    <title><![CDATA[Foundation]]></title>
+    <price>$15.61</price>
+  </book>
+  <book author="Robert A Heinlein">
+    <title><![CDATA[Stranger in a Strange Land]]</title>
+    <price discount="10%">$18.00</price>
+  </book>
+</books>
+*/
 ```
