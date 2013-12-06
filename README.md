@@ -24,8 +24,7 @@ xml2array
  * Version: 0.7 (24 March 2012)
  *          - Reverted to version 0.5
  * Version: 0.8 (02 May 2012)
- *          - Removed htmlspecialchars() before adding to text node or attributes.
- *
+ *        - Removed htmlspecialchars() before adding to text node or attributes.
 
  Usage:
  ======
