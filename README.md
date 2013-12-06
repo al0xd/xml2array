@@ -26,14 +26,18 @@ xml2array
  * Version: 0.8 (02 May 2012)
  *          - Removed htmlspecialchars() before adding to text node or attributes.
  *
- ### Usage:
+
+ Usage:
+ ======
 ```php
 $xml = Array2XML::createXML('root_node_name', $php_array);
 echo $xml->saveXML();
 ```
+
 Important thing to note is that the $xml object returned is of type DOMDocument and hence you can perform further operations on it.
 
 Optionally you can also set the version of XML and encoding by calling the Array2XML::init() function before calling the Array2XML::createXML() function.
+
 ```php
 Array2XML::init($version /* ='1.0' */, $encoding /* ='UTF-8' */);
 ```
