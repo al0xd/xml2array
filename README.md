@@ -27,9 +27,41 @@ xml2array
  *          - Removed htmlspecialchars() before adding to text node or attributes.
  *
  * Usage:
- *       $xml = Array2XML::createXML('root_node_name', $php_array);
- *       echo $xml->saveXML();
 ```php
 $xml = Array2XML::createXML('root_node_name', $php_array);
 echo $xml->saveXML();
+```
+Important thing to note is that the $xml object returned is of type DOMDocument and hence you can perform further operations on it.
+
+Optionally you can also set the version of XML and encoding by calling the Array2XML::init() function before calling the Array2XML::createXML() function.
+```php
+Array2XML::init($version /* ='1.0' */, $encoding /* ='UTF-8' */);
+```
+It throws exception if the tag name or attribute name has illegal chars as per W3C spec.
+
+Array Structure conventions
+
+The array passed to the Array2XML::createXML() function follows few conventions, which are quite literal and easy to learn/use. The examples below demonstrate their usage
+
+Empty Nodes: Following will create an empty node.
+```php
+$books = array();  // or
+$books = null;  // or
+$books = '';
+$xml = Array2XML::createXML('books', $books);
+ 
+// all three cases above create <books/>
+```
+Attributes: Attributes can be added to any node by having a @attributes key in the array
+```php
+$books = array(
+    '@attributes' => array(
+        'type' => 'fiction',
+        'year' => 2011,
+        'bestsellers' => true
+    )
+);
+$xml = Array2XML::createXML('books', $books);
+ 
+// creates <books type="fiction" year="2011" bestsellers="true"/>
 ```
